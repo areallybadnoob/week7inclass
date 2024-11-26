@@ -67,11 +67,17 @@ jobs:
       #     title: "Test Suite Failure - $(date +'%Y-%m-%d %H:%M:%S')"
       #     content-filepath: failure_output.txt
 
-
-      - name: create an issue
+      # Step 7: Create an issue on failure
+      - name: Create issue if tests fail
+        if: failure()
         uses: dacbd/create-issue-action@main
         with:
           token: ${{ github.token }}
           title: Simple test issue
-          body: my new issue
+          body: |
+            The tests have failed. Here is the output of the test run:
+            ```
+            $(cat behave_test_output.txt)
+            ```
+
 
