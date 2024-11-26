@@ -1,45 +1,42 @@
-name: CI Automation for Test Suite
+name: Automated CI Pipeline for Behave
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
-  ci-automation:
-    name: Run Tests and Report Results
-    runs-on: ubuntu-latest  # Using Ubuntu as the OS for testing
+  run-tests:
+    name: Automated CI Pipeline
+    runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code from the repository
-      - name: Checkout repository code
+      # Step 1: Checkout the repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Setup Python (or other environment if needed)
-      - name: Setup Python Environment
+      # Step 2: Set up Python environment
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.8'
 
-      # Step 3: Install necessary dependencies for testing
-      - name: Install dependencies
+      # Step 3: Install testing tools
+      - name: Install Behave and dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install behave   # Assuming 'behave' for BDD testing
+          pip install behave
 
-      # Step 4: Run the tests
+      # Step 4: Extract source code and test scripts
+      # This is handled by the repository checkout step above
+
+      # Step 5: Run Behave tests
       - name: Run Behave tests
         run: |
-          behave > behave_test_output.txt  # Run tests and store output in a file
+          behave > behave_test_output.txt
 
-      # Step 5: Publish results to GitHub Actions as a test result
-      - name: Publish test results
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        with:
-          test-results: behave_test_output.txt  # Provide the test result file
-
-      # Step 6: Upload test results as an artifact
+      # Step 6: Upload test results as artifacts
       - name: Upload Test Results
         uses: actions/upload-artifact@v4
         with:
@@ -47,15 +44,11 @@ jobs:
           path: behave_test_output.txt
 
       # Step 7: Create an issue on failure
-      - name: Create issue if tests fail
-        if: failure()  # This step will run only if previous steps failed
-        uses: dacbd/create-issue-action@v4
+      - name: Create issue on failure
+        if: failure()
+        uses: peter-evans/create-issue-from-file@v4
         with:
-          title: "Test Suite Failure - $(date +'%Y-%m-%d %H:%M:%S')"  # Issue title with date
-          body: |
-            The tests have failed. Below is the output of the test run:
-            ```
-            $(cat behave_test_output.txt)
-            ```  # Display test result details in the issue
-          token: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub token for issue creation
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "Test Suite Failure - $(date +'%Y-%m-%d %H:%M:%S')"
+          content-filepath: behave_test_output.txt
 
