@@ -37,7 +37,7 @@ jobs:
       # Step 5: Run Behave tests
       - name: Run Behave tests
         run: |
-          behave > behave_test_output.txt
+          behave
 
       # Step 6: Upload test results as artifacts
       - name: Upload Test Results
