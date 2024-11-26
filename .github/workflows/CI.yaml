@@ -40,11 +40,11 @@ jobs:
           behave
 
       # Step 6: Upload test results as artifacts
-      - name: Upload Test Results
-        uses: actions/upload-artifact@v4
-        with:
-          name: behave-test-results
-          path: behave_test_output.txt
+      # - name: Upload Test Results
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: behave-test-results
+      #     path: behave_test_output.txt
 
       # Step 7: Create an issue on failure
       - name: Create issue on failure
