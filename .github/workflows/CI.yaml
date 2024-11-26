@@ -39,6 +39,13 @@ jobs:
         run: |
           behave
 
+      - name: Run behave tests 2
+        uses: cryptic-wizard/run-behave-tests@v0.4.0
+        with:
+          test-output-name: results.txt
+
+
+
       # Step 6: Upload test results as artifacts
       # - name: Upload Test Results
       #   uses: actions/upload-artifact@v4
