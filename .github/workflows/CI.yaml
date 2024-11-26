@@ -61,9 +61,9 @@ jobs:
       # Step 7: Create an issue on failure
       - name: Create issue on failure
         if: failure()
-        uses: peter-evans/create-issue-from-file@v4
+        uses: nashmaniac/create-issue-action@v1.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: "Test Suite Failure - $(date +'%Y-%m-%d %H:%M:%S')"
-          content-filepath: behave_test_output.txt
+          content-filepath: failure_output.txt
 
