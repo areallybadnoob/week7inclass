@@ -8,13 +8,16 @@ on:
 
 jobs:
   run-tests:
-    name: Automated CI Pipeline
+    name: behave-testing
     runs-on: ubuntu-latest
 
     steps:
       # Step 1: Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: List repo
+        run: |
+          ls
 
       # Step 2: Set up Python environment
       - name: Set up Python
