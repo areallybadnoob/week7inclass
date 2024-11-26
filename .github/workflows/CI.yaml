@@ -59,11 +59,19 @@ jobs:
           path: behave_test_output.txt
 
       # Step 7: Create an issue on failure
-      - name: Create issue on failure
-        if: failure()
-        uses: nashmaniac/create-issue-action@v1.1
+      # - name: Create issue on failure
+      #   if: failure()
+      #   uses: nashmaniac/create-issue-action@v1.1
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     title: "Test Suite Failure - $(date +'%Y-%m-%d %H:%M:%S')"
+      #     content-filepath: failure_output.txt
+
+
+      - name: create an issue
+        uses: dacbd/create-issue-action@main
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: "Test Suite Failure - $(date +'%Y-%m-%d %H:%M:%S')"
-          content-filepath: failure_output.txt
+          token: ${{ github.token }}
+          title: Simple test issue
+          body: my new issue
 
