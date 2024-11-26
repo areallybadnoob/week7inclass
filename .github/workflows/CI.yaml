@@ -18,7 +18,7 @@ jobs:
 
       # Step 2: Set up Python environment
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.8'
 
@@ -38,12 +38,12 @@ jobs:
 
       # Step 6: Upload test results as artifacts
       - name: Upload Test Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: behave-test-results
           path: behave_test_output.txt
 
-      # Step 7: Create an issue if tests fail
+      # Step 7: Create an issue on failure
       - name: Create issue on failure
         if: failure()
         uses: peter-evans/create-issue-from-file@v4
@@ -51,5 +51,3 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: "Test Suite Failure - $(date +'%Y-%m-%d %H:%M:%S')"
           content-filepath: behave_test_output.txt
-
-
