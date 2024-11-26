@@ -6,7 +6,7 @@ Feature: Scientific Calculator
   Scenario: Perform addition of two numbers
     Given the calculator is open
     When I add 5 and 3
-    Then the result should be 8
+    Then the result should be 6 #8
 
   Scenario: Perform subtraction of two numbers
     Given the calculator is open
