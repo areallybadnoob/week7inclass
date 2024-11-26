@@ -1,4 +1,5 @@
-name: Run commands on different operating systems
+name: Run Behave Tests
+
 on:
   push:
     branches: [ main ]
@@ -6,27 +7,28 @@ on:
     branches: [ main ]
 
 jobs:
-  Run-npm-on-Ubuntu:
-    name: Run npm on Ubuntu
+  Run-Behave-on-Ubuntu:
+    name: Run Behave on Ubuntu
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '14'
-      - run: npm help
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  Run-PSScriptAnalyzer-on-Windows:
-    name: Run PSScriptAnalyzer on Windows
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install PSScriptAnalyzer module
-        shell: pwsh
+      # Step 2: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
         run: |
-          Set-PSRepository PSGallery -InstallationPolicy Trusted
-          Install-Module PSScriptAnalyzer -ErrorAction Stop
-      - name: Get list of rules
-        shell: pwsh
+          python -m pip install --upgrade pip
+          pip install behave
+
+      # Step 4: Run Behave tests
+      - name: Run Behave tests
         run: |
-          Get-ScriptAnalyzerRule
+          behave
+
